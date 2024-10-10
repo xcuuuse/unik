@@ -2,37 +2,38 @@
 
 using namespace std;
 
-double s(double x, double n)
+double s(double x, int k)
 {
-double sum = 0;
-for (int k = 1; k <= n; k++)
-{
-sum = pow(-1, (k + 1)) * (pow(x, (2 * k + 1))) / (4 * pow(k, 2) - 1);
-}
-return sum;
+    return pow(-1, (k + 1)) * (pow(x, (2 * k + 1))) / (4 * k * k - 1);
 }
 
 double y(double x)
 {
-double ans = 0;
-ans += ((1 + pow(x, 2)) / 2) * atan(x) - x / 2;
-return ans;
+    return ((1 + pow(x, 2)) / 2) * atan(x) - x / 2;
 }
 
 int main() {
-    double x1, x2;
-    double a = 0.1, b = 1, h = 0.1;
-    for (double i = a; i <= b; i += h) {
-        x1 = 0;
-        x2 = y(i);
-        for (double k = 0;; k++) {
-            x1 += s(i, k);
-            if (fabs(x2 - x1) < 0.00001) {
-                break;
-            }
-        }
+    double temp1, temp2;
+    double a, b, h, e;
+    cin >> a >> b >> h >> e;
 
-        cout << fixed << setprecision(9) << x2 << " " << x1 << " " << fabs((x2 - x1)) << "\n";
+    cout << "       x    " << "    S(x)    " << "      Y(x)      "  << "    |S(x) - Y(x)|" << "\n";
+    for (double x = a; x <= b; x += h)
+    {
+        double comp = x * x * x;
+        temp1 = comp / 3;
+        temp2 = y(x);
+        int k = 1;
+
+        while(fabs(temp2 - temp1) > e)
+        {
+            k++;
+            comp *= -1 * x * x;
+            temp1 += comp / (4 * k * k - 1);
+        }
+        cout << fixed << setprecision(9) << "|" << x << " | " << temp1 << " | "
+             << temp2 << " | " << fabs((temp2 - temp1)) << " | " << k << " |\n";
     }
 
+    return 0;
 }
