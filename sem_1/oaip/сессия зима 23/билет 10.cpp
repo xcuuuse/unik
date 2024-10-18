@@ -10,9 +10,10 @@ int32_t main()
     cin >> n;
     int m = n;
 
-    vector<vector<int>> arr(n, vector<int>(m));
+    int** arr = new int*[n];
     for (int i = 0; i < n; i++)
     {
+        arr[i] = new int[m];
         for (int j = 0; j < m; j++)
         {
             cin >> arr[i][j];
@@ -27,6 +28,7 @@ int32_t main()
         }
         cout << "\n";
     }
+    cout << "\n";
 
     int sum = 0;
     for (int j = 0; j < m; j++)
@@ -81,6 +83,12 @@ int32_t main()
     }
 
     cout << sum / n << "\n";
+
+    for (int i = 0; i < n; i++)
+    {
+        delete[] arr[i];
+    }
+    delete[] arr;
 
     return 0;
 }
