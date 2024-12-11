@@ -1,24 +1,11 @@
-#include <bits/stdc++.h>
+
+/*#include <iostream>
+#include <vector> */
+#include "bits/stdc++.h"
 
 using namespace std;
 
-vector<int> qnike_pro(vector<int> a)
-{
-    vector <int> UNIC;
-    for (int i : a) {
-        bool seen = false;
-        for (int j : UNIC) {
-            if (i == j) {
-                seen = true;
-                break;
-            }
-        }
-        if (!seen) {
-            UNIC.push_back(i);
-        }
-    }
-    return UNIC;
-}
+
 // объединение
 void union_sets(const vector<int>& A, const vector<int>& B, vector<int>& res)
 {
@@ -107,8 +94,7 @@ void out_union(const vector<int>& A, const vector<int>& B)
 {
     vector<int> res;
     union_sets(A, B, res);
-    vector<int> res_q= qnike_pro(res);
-    outputSet(res_q);
+    outputSet(res);
 }
 
 // выполнение пересечения
@@ -116,8 +102,7 @@ void out_inter(const vector<int>& A, const vector<int>& B)
 {
     vector<int> result;
     inter_sets(A, B, result);
-    vector<int> result_q = qnike_pro(result);
-    outputSet(result_q);
+    outputSet(result);
 }
 
 // выполнение разности
@@ -150,13 +135,44 @@ vector<vector<int>> computeComposition(const vector<vector<int>>& F, const vecto
                 }
 
                 if (flag) {
-                    GK1.push_back({g[0], f[1]});
+                    GK1.push_back({ g[0], f[1] });
                 }
             }
         }
     }
 
     return GK1;
+}
+//образ
+vector<int> computeImage(const vector<int>& Obr11, const vector<vector<int>>& G) {
+    vector<int> ObrA;
+    for (int elem : Obr11) {
+        for (const auto& pair : G) {
+            if (elem == pair[0]) {
+                // Проверка на уникальность
+                if (find(ObrA.begin(), ObrA.end(), pair[1]) == ObrA.end()) {
+                    ObrA.push_back(pair[1]);
+                }
+            }
+        }
+    }
+    return ObrA;
+}
+
+// Функция для нахождения прообраза множества
+vector<int> computePreimage(const vector<int>& Obr12, const vector<vector<int>>& G) {
+    vector<int> PrObrA;
+    for (int elem : Obr12) {
+        for (const auto& pair : G) {
+            if (elem == pair[1]) {
+                // Проверка на уникальность
+                if (find(PrObrA.begin(), PrObrA.end(), pair[0]) == PrObrA.end()) {
+                    PrObrA.push_back(pair[0]);
+                }
+            }
+        }
+    }
+    return PrObrA;
 }
 
 
@@ -174,11 +190,45 @@ int vvod() {
     }
 }
 
+int computeY(int x) {
+    return x * x * x - 5 * x * x + 7 * x + 3;
+}
+
+void vvod_pro(vector<vector<int>>& a, int size) {
+    int n;
+    cout << "Как вводить график? \n 1 - ручной ввод \n 2 - ввод выражением \n";
+    cin >> n;
+    switch (n)
+    {
+        case 1:
+            cout << "Вводите элементы множества (пары):\n";
+            for (int i = 0; i < size; i++) {
+                a[i][0] = vvod();
+                a[i][1] = vvod();
+            }
+            break;
+        case 2:
+            cout << "Введите " << size << " значений первых элементов пары \n";
+
+            for (int i = 0; i < size; i++) {
+                int x;
+                cin >> x;
+                a[i][0] = x;
+                a[i][1] = computeY(x);
+            }
+
+            break;
+        default:
+            cout << "Вы ввели некорректное значение.";
+            break;
+    }
+}
+
 int main()
 {
-    system(" chcp 65001");
+    system(" chcp 65001");//65001
 
-   // cin.tie(nullptr);
+    // cin.tie(nullptr);
     vector<int> X, Y, U, V;
     vector<vector<int>> G, F;
 
@@ -237,12 +287,7 @@ int main()
         }
     }
 
-    cout << "Вводите элементы множества G (пары):\n";
-    for (int i = 0; i < size_g; i++)
-    {
-        G[i][0] = vvod();
-        G[i][1] = vvod();
-    }
+    vvod_pro(G, size_g);
 
     cout << "Введите мощность множества U: ";
     int size_u;
@@ -301,12 +346,7 @@ int main()
         }
     }
 
-    cout << "Вводите элементы множества F (пары):\n";
-    for (int i = 0; i < size_f; i++)
-    {
-        F[i][0] = vvod();
-        F[i][1] = vvod();
-    }
+    vvod_pro(F, size_f);
 
     // выполнение операций над множествами
     cout << "\n-------ОБЪЕДИНЕНИЕ Г1 and Г2-------\n";
@@ -406,8 +446,87 @@ int main()
     }
     cout << "\n";
 
+    // Образ A
+    cout << "\n\n-------ОБРАЗ А-------\n";
+    cout << "Введите мощность множества Obr11: ";
+    int sizeObr11;
+    cin >> sizeObr11;
+    vector<int> Obr11(sizeObr11);
+    cout << "Введите множество Obr11: ";
+    for (int i = 0; i < sizeObr11; i++)
+    {
+        cin >> Obr11[i];
+    }
 
-    //int n; cin >> nkpas oh s v dfids s dvdvd vd igvh vh n gh h ghhdb hg  dh  nydb bdhb b 
+    vector<int> ObrA = computeImage(Obr11, G);
+    cout << "Образ A: ";
+    for (int value : ObrA)
+    {
+        cout << value << " ";
+    }
+
+    // Прообраз A
+    cout << "\n\n-------ПРООБРАЗ А-------\n";
+    cout << "Введите мощность множества Obr12: ";
+    int sizeObr12;
+    cin >> sizeObr12;
+    vector<int> Obr12(sizeObr12);
+    cout << "Введите множество Obr12: ";
+    for (int i = 0; i < sizeObr12; i++)
+    {
+        cin >> Obr12[i];
+    }
+
+    vector<int> PrObrA = computePreimage(Obr12, G);
+    cout << "Прообраз A: ";
+    for (int value : PrObrA)
+    {
+        cout << value << " ";
+    }
+    cout << endl;
+
+    // Образ B
+    cout << "\n\n-------ОБРАЗ B-------\n";
+    cout << "Введите мощность множества Obr21: ";
+    int sizeObr21;
+    cin >> sizeObr21;
+    vector<int> Obr21(sizeObr21);
+    cout << "Введите множество Obr21: ";
+    for (int i = 0; i < sizeObr21; i++)
+    {
+        cin >> Obr21[i];
+    }
+
+    vector<int> ObrB = computeImage(Obr21, G);
+    cout << "Образ B: ";
+    for (int value : ObrB) {
+        cout << value << " ";
+    }
+
+    // Прообраз B
+    cout << "\n\n-------ПРООБРАЗ B-------\n";
+    cout << "Введите мощность множества Obr22: ";
+    int sizeObr22;
+    cin >> sizeObr22;
+    vector<int> Obr22(sizeObr22);
+    cout << "Введите множество Obr22: ";
+    for (int i = 0; i < sizeObr22; i++)
+    {
+        cin >> Obr22[i];
+    }
+
+    vector<int> PrObrB = computePreimage(Obr22, G);
+    cout << "Прообраз B: ";
+    for (int value : PrObrB)
+    {
+        cout << value << " ";
+    }
+    cout << endl;
+
+
+
+
+    //int n; cin >> nkpas oh s v dfids s dvdvd vd igvh vh n gh h ghhdb hg  dh  nydb bdhb b
 
     return 0;
 }
