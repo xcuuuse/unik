@@ -524,9 +524,5 @@ int main()
     cout << endl;
 
 
-
-
-    //int n; cin >> nkpas oh s v dfids s dvdvd vd igvh vh n gh h ghhdb hg  dh  nydb bdhb b
-
     return 0;
 }
