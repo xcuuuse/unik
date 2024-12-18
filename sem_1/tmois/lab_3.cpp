@@ -184,9 +184,6 @@ int vvod() {
         if (value > 0 && value < 101) {
             return value;
         }
-        else {
-            cout << "введите число от 1 до 100 " << endl;
-        }
     }
 }
 
@@ -240,9 +237,7 @@ int main() {
             X.resize(size_x);
             break;
         }
-        /* else {
-             cout << "Введите мощность не меньше 0" << endl;
-         } */
+        
      } 
 
         cout << "Вводите элементы множества X:\n";
@@ -259,9 +254,7 @@ int main() {
                 Y.resize(size_y);
                 break;
             }
-            /*else {
-                cout << "Введите мощность не меньше 0" << endl;
-            } */
+        
         }
 
 
@@ -279,9 +272,6 @@ int main() {
                 G.resize(size_g, vector<int>(2));
                 break;
             }
-            /* else {
-                 cout << "Введите мощность не меньше 0" << endl;
-             } */
         }
 
         vvod_pro(G, size_g);
@@ -296,9 +286,6 @@ int main() {
                 U.resize(size_u);
                 break;
             }
-            /* else {
-                 cout << "Введите мощность не меньше 0" << endl;
-             } */
         }
         cout << "Вводите элементы множества:\n";
         for (int i = 0; i < size_u; i++) {
@@ -315,9 +302,6 @@ int main() {
                 V.resize(size_v);
                 break;
             }
-            /* else {
-                 cout << "Введите мощность не меньше 0" << endl;
-             } */
         }
 
 
@@ -336,9 +320,6 @@ int main() {
                 F.resize(size_f, vector<int>(2));
                 break;
             }
-            /* else {
-                 cout << "Введите мощность не меньше 0" << endl;
-             } */
         }
 
         vvod_pro(F, size_f);
