@@ -6,12 +6,12 @@ import matplotlib.pyplot as plt
 ALPHABET = ''.join(chr(code) for code in range(32, 127))
 
 
-def generate_string(length):
+def generate_string(length: int) -> str:
     random.seed(time.time())
     return ''.join(random.choice(ALPHABET) for _ in range(length))
 
 
-def plot_frequency(text, filename="frequency.png"):
+def plot_frequency(text: str, filename: str="frequency.png"):
     codes = [ord(symbol) for symbol in ALPHABET]
     counts = [text.count(symbol) for symbol in ALPHABET]
     expected = len(text) / len(ALPHABET)
@@ -27,7 +27,7 @@ def plot_frequency(text, filename="frequency.png"):
     plt.close()
 
 
-def crack(password):
+def crack(password: str) -> float:
     start_time = time.time()
     for candidate in itertools.product(ALPHABET, repeat=len(password)):
         if ''.join(candidate) == password:
@@ -35,7 +35,7 @@ def crack(password):
     return time.time() - start_time
 
 
-def average_time(password_length, speed):
+def average_time(password_length: int, speed: float):
     return len(ALPHABET) ** password_length / 2 / speed
 
 
@@ -56,13 +56,14 @@ def plot_average_time(speed, max_length=16, filename="bruteforce_time.png"):
 length = int(input('String length: '))
 text = generate_string(length)
 plot_frequency(text)
+counts = [text.count(symbol) for symbol in ALPHABET]
+expected = len(text) / len(ALPHABET)
+print(f'Expected: {expected:.1f} | min: {min(counts)} | max: {max(counts)}')
 password = text[:3]
 spent_time = crack(password)
-print('Password:', password, '| cracked in %.3f s' % spent_time)
+print(f'Password: {password} | cracked in {spent_time:.3f} s')
 speed = len(ALPHABET) ** 3 / crack(ALPHABET[-1] * 3)
-print('Speed: %.0f passwords per second' % speed)
+print(f'Speed: {speed:.0f} passwords per second')
 for password_length in range(1, 17):
-    print('Length %2d: %.3e seconds' % (password_length,
-                                        average_time(password_length, speed)))
-
+    print(f'Length {password_length:2d}: {average_time(password_length, speed):.3e} seconds')
 plot_average_time(speed)
