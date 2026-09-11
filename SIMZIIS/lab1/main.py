@@ -4,7 +4,7 @@ import itertools
 import matplotlib.pyplot as plt
 
 ALPHABET = ''.join(chr(code) for code in range(32, 127))
-
+PASS_LENGTH = 4
 
 def generate_string(length: int) -> str:
     random.seed(time.time())
@@ -59,10 +59,10 @@ plot_frequency(text)
 counts = [text.count(symbol) for symbol in ALPHABET]
 expected = len(text) / len(ALPHABET)
 print(f'Expected: {expected:.1f} | min: {min(counts)} | max: {max(counts)}')
-password = text[:3]
+password = text[:PASS_LENGTH]
 spent_time = crack(password)
 print(f'Password: {password} | cracked in {spent_time:.3f} s')
-speed = len(ALPHABET) ** 3 / crack(ALPHABET[-1] * 3)
+speed = len(ALPHABET) ** PASS_LENGTH / crack(ALPHABET[-1] * PASS_LENGTH)
 print(f'Speed: {speed:.0f} passwords per second')
 for password_length in range(1, 17):
     print(f'Length {password_length:2d}: {average_time(password_length, speed):.3e} seconds')
